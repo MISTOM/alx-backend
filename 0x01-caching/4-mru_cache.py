@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-'''Last-In Fisrt-Out caching Policy
+'''Most Recently Used caching Policy
 '''
 
 from collections import OrderedDict
 BaseCaching = __import__("base_caching").BaseCaching
 
 
-class LIFOCache(BaseCaching):
+class MRUCache(BaseCaching):
     '''Represents an object that allows storing and
-    retrieving items from a dictionary with a LIFO
+    retrieving items from a dictionary with a MRU
     removal mechanism when the limit is reached.
     '''
     def __init__(self) -> None:
@@ -23,12 +23,15 @@ class LIFOCache(BaseCaching):
         if key is None or item is None:
             return
         if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-            first_key, _ = self.cache_data.popitem(True)
+            first_key, _ = self.cache_data.popitem(False)
             print('DISCARD:', first_key)
         self.cache_data[key] = item
-        self.cache_data.move_to_end(key, last=True)
+        self.cache_data.move_to_end(key, last=False)
 
     def get(self, key):
         '''Retrieves an Item by key
         '''
+        if key is None or key not in self.cache_data.keys():
+            return None
+        self.cache_data.move_to_end(key, last=False)
         return self.cache_data.get(key, None)
