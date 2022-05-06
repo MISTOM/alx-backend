@@ -3,7 +3,7 @@
 '''
 
 from collections import OrderedDict
-BaseCaching = __import__("./base_caching").BaseCaching
+BaseCaching = __import__("base_caching").BaseCaching
 
 
 class FIFOCache(BaseCaching):
@@ -12,7 +12,7 @@ class FIFOCache(BaseCaching):
     removal mechanism when the limit is reached.
     '''
     def __init__(self) -> None:
-        '''Innitializes the Class
+        '''Initializes the Class
         '''
         super().__init__()
         self.cache_data = OrderedDict()
@@ -22,10 +22,10 @@ class FIFOCache(BaseCaching):
         '''
         if key is None or item is None:
             return
+        self.cache_data.update({'{}'.format(key): item})
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             first_key, _ = self.cache_data.popitem(False)
             print('DISCARD:', first_key)
-        self.cache_data.update({'{}'.format(key): item})
 
     def get(self, key):
         '''Retrieves an Item by key
