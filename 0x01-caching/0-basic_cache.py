@@ -7,10 +7,6 @@ from BaseCaching import BaseCaching
 class BasicCache(BaseCaching):
     '''BasicCaching to a Dictionary
     '''
-    def __init__(self):
-        '''Initialization
-        '''
-        self.cache_data = {}
 
     def put(self, key, item):
         '''Adds item to the Cache
